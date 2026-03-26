@@ -1,0 +1,22 @@
+name: SyncUpstream
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Sync repo
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: "qwe213312/k25FCdfEOoEJ42S6"
+          destination_repo: "sunyufan00/public"
+          source_branch: "main"
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
