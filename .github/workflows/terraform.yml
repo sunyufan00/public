@@ -1,4 +1,4 @@
-name: SyncUpstream
+name: 强制同步上游仓库
 on:
   workflow_dispatch:
   schedule:
@@ -8,15 +8,13 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          
-      - name: Sync to my repo
-        uses: repo-sync/github-sync@v2
-        with:
-          source_repo: "qwe213312/k25FCdfEOoEJ42S6"
-          source_branch: "main"
-          destination_branch: "main"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 拉取代码并强制同步
+        run: |
+          git config --global user.name "sunyufan00"
+          git config --global user.email "test@example.com"
+          git clone https://github.com/qwe213312/k25FCdfEOoEJ42S6.git temp_repo
+          cd temp_repo
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/sunyufan00/public.git
+          git push --force --all origin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
